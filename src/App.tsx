@@ -50,6 +50,9 @@ function MainAppContent() {
   // Prefilled notes for massage services
   const [prefilledNotes, setPrefilledNotes] = useState('');
 
+  // Blog active menu state
+  const [blogInitialMenu, setBlogInitialMenu] = useState<'articles' | 'primbon'>('articles');
+
   // Categories list definition
   const categories = [
     { id: 'all', label: 'All Remedies' },
@@ -304,6 +307,17 @@ function MainAppContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleNavigateToPrimbon = () => {
+    setBlogInitialMenu('primbon');
+    setActiveSection('blog');
+    setTimeout(() => {
+      const el = document.getElementById('blog');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  };
+
   // Filter products locally based on category tab selections
   const filteredProducts = selectedCategory === 'all'
     ? products
@@ -364,7 +378,12 @@ function MainAppContent() {
       {activeSection !== 'admin' && (
         <Header
           activeSection={activeSection}
-          setActiveSection={setActiveSection}
+          setActiveSection={(sec) => {
+            if (sec === 'blog') {
+              setBlogInitialMenu('articles');
+            }
+            setActiveSection(sec);
+          }}
           isAdminLoggedIn={isAdminLoggedIn}
           onLogout={handleAdminLogout}
         />
@@ -527,7 +546,7 @@ function MainAppContent() {
             )}
 
             {activeSection === 'blog' && (
-              <BlogSection blogs={blogs} />
+              <BlogSection blogs={blogs} initialMenu={blogInitialMenu} />
             )}
 
             {activeSection === 'order' && (
@@ -571,6 +590,29 @@ function MainAppContent() {
         onAddToOrder={handleAddToOrder}
         isAdded={!!selectedProduct && !!selectedProducts.find(p => p.id === selectedProduct.id)}
       />
+
+      {/* FLOATING PRIMBON JAWAS CUTOUT FOR HOME PAGE */}
+      {activeSection === 'home' && (
+        <div className="fixed bottom-6 right-6 z-50" id="floating-primbon-shortcut">
+          <div className="relative group">
+            {/* Animated Gold pulsing rings */}
+            <span className="absolute -inset-1.5 rounded-full bg-gold/30 animate-ping pointer-events-none" />
+            <span className="absolute -inset-2.5 rounded-full bg-royal-green/15 animate-pulse pointer-events-none" style={{ animationDuration: '3s' }} />
+            
+            <motion.button
+              onClick={handleNavigateToPrimbon}
+              className="px-5 h-14 rounded-full bg-royal-green border-2 border-gold text-gold hover:bg-royal-green/90 shadow-2xl relative z-10 flex items-center justify-center space-x-2.5 transition-colors duration-300 group cursor-pointer"
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Sparkles className="w-5 h-5 text-gold animate-pulse" />
+              <span className="font-serif text-xs font-bold tracking-wider uppercase">
+                {language === 'id' ? 'Cek Primbon Weton' : language === 'nl' ? 'Javaanse Weton' : 'Check Javanese Weton'}
+              </span>
+            </motion.button>
+          </div>
+        </div>
+      )}
 
       {/* PERSISTENT FLOATING WHATSAPP QUICK ACCESS & ORDER ENGINE */}
       {activeSection !== 'home' && activeSection !== 'admin' && (

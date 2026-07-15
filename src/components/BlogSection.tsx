@@ -7,13 +7,20 @@ import { PrimbonCalculator } from './PrimbonCalculator';
 
 interface BlogSectionProps {
   blogs: BlogPost[];
+  initialMenu?: 'articles' | 'primbon';
 }
 
-export const BlogSection: React.FC<BlogSectionProps> = ({ blogs }) => {
+export const BlogSection: React.FC<BlogSectionProps> = ({ blogs, initialMenu }) => {
   const { t, translate, translateArray, language } = useLanguage();
   const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeMenu, setActiveMenu] = useState<'articles' | 'primbon'>('articles');
+
+  useEffect(() => {
+    if (initialMenu) {
+      setActiveMenu(initialMenu);
+    }
+  }, [initialMenu]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
