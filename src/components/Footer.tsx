@@ -4,9 +4,10 @@ import { Leaf, Phone, Mail, MapPin, Clock, MessageSquare, Instagram, Facebook } 
 
 interface FooterProps {
   onNavClick: (section: string) => void;
+  whatsappUrl?: string;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavClick }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavClick, whatsappUrl }) => {
   const { t } = useLanguage();
 
   return (
@@ -63,7 +64,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick }) => {
                 <Facebook className="w-4 h-4" />
               </a>
               <a 
-                href="https://wa.me/31684861301" 
+                href={whatsappUrl || "https://wa.me/31684861301"} 
                 target="_blank" 
                 rel="noreferrer" 
                 className="bg-cream/10 hover:bg-gold hover:text-royal-green p-2.5 rounded-full transition-all duration-300 shadow-inner text-[#25D366] hover:text-royal-green"

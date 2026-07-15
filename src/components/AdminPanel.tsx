@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Product, BlogPost, Order, SeoSettings, BusinessInfo } from '../types';
 import { useLanguage } from '../context/LanguageContext';
+import { SeoManager } from './SeoManager';
 import {
-  Lock, Plus, Edit2, Trash2, X, Sparkles, Clock, Heart, ShieldCheck
+  Lock, Plus, Edit2, Trash2, X, Sparkles, Clock, Heart, ShieldCheck,
+  CheckCircle, AlertTriangle, Search, Award, Info, RefreshCw, AlertCircle
 } from 'lucide-react';
 
 interface AdminPanelProps {
@@ -45,8 +47,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
   // Massage Service States
   const [services, setServices] = useState<any[]>([]);
-  const [activeTab, setActiveTab] = useState<'products' | 'services'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'services' | 'seo'>('products');
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
+
   const [editingService, setEditingService] = useState<any | null>(null);
 
   // Core Service Form fields
@@ -449,7 +452,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         </div>
 
         {/* Workspace Navigation Tabs */}
-        <div className="flex border-b border-gold/15 mb-6">
+        <div className="flex flex-wrap border-b border-gold/15 mb-6">
           <button
             onClick={() => setActiveTab('products')}
             className={`px-6 py-3 font-serif font-bold text-xs sm:text-sm tracking-wide border-b-2 transition-all cursor-pointer ${
@@ -469,6 +472,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             }`}
           >
             Manage Massage / Services (Jenis Pijatan)
+          </button>
+          <button
+            onClick={() => setActiveTab('seo')}
+            className={`px-6 py-3 font-serif font-bold text-xs sm:text-sm tracking-wide border-b-2 transition-all cursor-pointer ${
+              activeTab === 'seo'
+                ? 'border-gold text-royal-green bg-cream/10'
+                : 'border-transparent text-royal-green/60 hover:text-royal-green'
+            }`}
+          >
+            SEO Diagnostic &amp; Settings (Analisis SEO)
           </button>
         </div>
 
@@ -566,6 +579,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 ))}
               </div>
             </div>
+          )}
+
+          {activeTab === 'seo' && (
+            <SeoManager seoSettings={seoSettings} onRefreshData={onRefreshData} />
           )}
         </div>
 

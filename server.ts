@@ -18,9 +18,22 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 // Express Body Parsers
 app.use(express.json());
 
-// Enable serving local images as static assets
-app.use('/src/assets', express.static(path.join(process.cwd(), 'src/assets')));
-app.use('/assets', express.static(path.join(process.cwd(), 'src/assets')));
+// Enable serving local images as static assets (with robust fallback for production-only environments)
+const localAssetsPath = path.join(process.cwd(), 'src/assets');
+const builtAssetsPath = path.join(process.cwd(), 'dist/src/assets');
+
+if (fs.existsSync(localAssetsPath)) {
+  app.use('/src/assets', express.static(localAssetsPath));
+  app.use('/assets', express.static(localAssetsPath));
+} else if (fs.existsSync(builtAssetsPath)) {
+  app.use('/src/assets', express.static(builtAssetsPath));
+  app.use('/assets', express.static(builtAssetsPath));
+} else {
+  // Direct fallback to dist if assets folder is in dist/assets
+  const distPath = path.join(process.cwd(), 'dist');
+  app.use('/src/assets', express.static(path.join(distPath, 'src/assets')));
+  app.use('/assets', express.static(path.join(distPath, 'src/assets')));
+}
 
 // Lazy initialize Gemini client to avoid crashes if GEMINI_API_KEY is missing
 function getGeminiClient() {

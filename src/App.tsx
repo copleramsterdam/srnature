@@ -221,6 +221,39 @@ function MainAppContent() {
     });
   };
 
+  const getWhatsAppUrl = () => {
+    const rawWa = businessInfo?.socialMedia?.whatsapp || "https://wa.me/31684861301";
+    let baseNumber = "31684861301";
+    if (rawWa.includes('wa.me/')) {
+      baseNumber = rawWa.split('wa.me/')[1].split('?')[0].replace('+', '').trim();
+    } else if (rawWa.includes('whatsapp.com/send')) {
+      const match = rawWa.match(/phone=([^&]+)/);
+      if (match) baseNumber = match[1].replace('+', '').trim();
+    } else {
+      baseNumber = rawWa.replace('https://', '').replace('http://', '').replace('+', '').replace(/\s+/g, '').trim();
+    }
+
+    if (selectedProducts.length > 0) {
+      let text = `🌿 *SR Nature & Aromatherapy* 🌿\n\n`;
+      text += `*Current Cart Items / Rincian Keranjang:*\n`;
+      selectedProducts.forEach(p => {
+        const qty = quantities[p.id] || 1;
+        const name = translate(p.name);
+        text += `- ${name} x ${qty} (€${(p.price * qty).toFixed(2)})\n`;
+      });
+      const total = selectedProducts.reduce((sum, p) => {
+        const qty = quantities[p.id] || 1;
+        return sum + p.price * qty;
+      }, 0);
+      text += `\n*Total:* €${total.toFixed(2)}\n\n`;
+      text += `Please help me complete my order/consultation!`;
+      return `https://wa.me/${baseNumber}?text=${encodeURIComponent(text)}`;
+    }
+
+    const defaultText = `Hello SR Nature & Aromatherapy, I would like to consult about your traditional Javanese herbal remedies and wellness treatments.`;
+    return `https://wa.me/${baseNumber}?text=${encodeURIComponent(defaultText)}`;
+  };
+
   const handleSectionTransition = (id: string) => {
     setActiveSection(id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -303,11 +336,16 @@ function MainAppContent() {
             transition={{ duration: 0.3 }}
           >
             {activeSection === 'home' && (
-              <Hero
-                onShopClick={() => handleSectionTransition('shop')}
-                onAboutClick={() => handleSectionTransition('about')}
-                onWhatsAppClick={() => handleSectionTransition('order')}
-              />
+              <div 
+                className="bg-cover bg-center bg-royal-green relative w-full h-full min-h-[480px] lg:min-h-[500px]"
+                style={{ backgroundImage: "url('/src/assets/images/luxury_spa_massage_1783866797180.jpg')" }}
+              >
+                <Hero
+                  onShopClick={() => handleSectionTransition('shop')}
+                  onAboutClick={() => handleSectionTransition('about')}
+                  onWhatsAppClick={() => handleSectionTransition('order')}
+                />
+              </div>
             )}
 
             {activeSection === 'shop' && (
@@ -478,7 +516,7 @@ function MainAppContent() {
 
       {/* Spa Styled Footnote */}
       {activeSection !== 'admin' && (
-        <Footer onNavClick={handleSectionTransition} />
+        <Footer onNavClick={handleSectionTransition} whatsappUrl={getWhatsAppUrl()} />
       )}
 
       {/* DETAILED POTIONS LAB ALCHEMY LIGHTBOX */}
@@ -569,7 +607,7 @@ function MainAppContent() {
 
                     {/* Option 3: Direct WhatsApp Chat */}
                     <a
-                      href={businessInfo?.socialMedia?.whatsapp || "https://wa.me/31684861301"}
+                      href={getWhatsAppUrl()}
                       target="_blank"
                       rel="noreferrer"
                       onClick={() => setIsWhatsAppMenuOpen(false)}

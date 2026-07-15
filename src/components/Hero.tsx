@@ -60,7 +60,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onAboutClick, onWhatsAp
       />
 
       {/* Cinematic Dark Royal Green/Charcoal Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-royal-green/95 via-royal-green/85 to-black/70 z-10" />
+      <div className="absolute inset-0 bg-gradient-to-b from-royal-green/65 via-royal-green/80 to-royal-green/95 lg:bg-gradient-to-r lg:from-royal-green/95 lg:via-royal-green/85 lg:to-black/70 z-10" />
 
       {/* Subtle Javanese Batik overlay pattern for touch of heritage */}
       <div className="absolute inset-0 z-10 opacity-[0.03] batik-pattern-dark pointer-events-none" />
