@@ -36,8 +36,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   }
 
   // Authentication states
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
