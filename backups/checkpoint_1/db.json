@@ -1,0 +1,373 @@
+{
+  "products": [
+    {
+      "id": "kunyit-asam",
+      "name": {
+        "en": "Royal Kunyit Asam (Turmeric & Tamarind)",
+        "nl": "Koninklijke Kunyit Asam (Kurkuma & Tamarinde)"
+      },
+      "category": "womens-health",
+      "description": {
+        "en": "An exquisite traditional elixir combining hand-selected Javanese turmeric roots and sweet tamarind. Crafted to restore harmony, revive skin radiance, and ease internal digestion.",
+        "nl": "Een voortreffelijk traditioneel elixer dat met de hand geselecteerde Javaanse kurkumawortels en zoete tamarinde combineert. Gemaakt om harmonie te herstellen, de huid te laten stralen en de spijsvertering te kalmeren."
+      },
+      "ingredients": {
+        "en": [
+          "Fresh Javanese Turmeric (Curcuma longa)",
+          "Tamarind pulp (Tamarindus indica)",
+          "Organic Palm Sugar",
+          "Pinch of mineral salt",
+          "Purified water"
+        ],
+        "nl": [
+          "Verse Javaanse Kurkuma (Curcuma longa)",
+          "Tamarindepulp (Tamarindus indica)",
+          "Biologische Palmsuiker",
+          "Snufje mineraalzout",
+          "Gezuiverd water"
+        ]
+      },
+      "benefits": {
+        "en": [
+          "Promotes youthful skin and inner glow",
+          "Reduces inflammation and muscle stiffness",
+          "Aids natural digestion and bloating",
+          "Regulates menstrual cycle and relieves cramps"
+        ],
+        "nl": [
+          "Bevordert een jeugdige huid en innerlijke glans",
+          "Vermindert ontstekingen en spierpijn",
+          "Ondersteunt de natuurlijke spijsvertering",
+          "Reguleert de menstruatiecyclus en verlicht krampen"
+        ]
+      },
+      "traditionalExplanation": {
+        "en": "Loved by Javanese princesses for centuries, Kunyit Asam is the essence of Java's royal beauty regimen, known for balancing hot and cold energies inside the body.",
+        "nl": "Kunyit Asam, dat al eeuwenlang geliefd is bij Javaanse prinsessen, is de essentie van het koninklijke schoonheidsregime van Java, bekend om het in evenwicht brengen van warme en koude energieën in het lichaam."
+      },
+      "scientificExplanation": {
+        "en": "Curcumin from turmeric is a powerful natural anti-inflammatory agent, while tamarind is loaded with antioxidants and Vitamin C that improve nutrient absorption.",
+        "nl": "Curcumine uit kurkuma is een krachtige natuurlijke ontstekingsremmer, terwijl tamarinde boordevol antioxidanten en vitamine C zit die de opname van voedingsstoffen verbeteren."
+      },
+      "howToConsume": {
+        "en": "Drink cold in the morning or warm before bed. Shake well before drinking. Keep refrigerated.",
+        "nl": "Drink koud in de ochtend of warm voor het slapengaan. Goed schudden voor gebruik. Gekoeld bewaren."
+      },
+      "recommendedConsumption": {
+        "en": "1 bottle (250ml) daily for ongoing wellness maintenance.",
+        "nl": "1 fles (250ml) per dag voor voortdurend welzijn."
+      },
+      "whoShouldUse": {
+        "en": "Highly recommended for individuals seeking natural anti-inflammatory benefits, digestive comfort, or hormonal balance.",
+        "nl": "Zeer aanbevolen voor mensen die op zoek zijn naar natuurlijke ontstekingsremmende voordelen, spijsverteringscomfort of hormonale balans."
+      },
+      "warnings": {
+        "en": "Consult your doctor if pregnant or breastfeeding. Do not consume if you have gallstones.",
+        "nl": "Raadpleeg uw arts bij zwangerschap of borstvoeding. Niet consumeren als u galstenen heeft."
+      },
+      "price": 12.5,
+      "stock": 45,
+      "isFeatured": true,
+      "imageUrl": "/src/assets/images/kunyit_asam_bottle_1783604890128.jpg"
+    },
+    {
+      "id": "beras-kencur",
+      "name": {
+        "en": "Vitality Beras Kencur (Rice & Aromatic Ginger)",
+        "nl": "Vitaliteit Beras Kencur (Rijst & Aromatische Gember)"
+      },
+      "category": "immune-booster",
+      "description": {
+        "en": "A powerful Javanese energy booster. Combining fragrant roasted rice, warming aromatic ginger (Kencur), and organic spices to relieve physical fatigue, soothe throats, and boost vital immune systems.",
+        "nl": "Een krachtige Javaanse energiebooster. Combineert geurige geroosterde rijst, verwarmende aromatische gember (Kencur) en biologische kruiden om fysieke vermoeidheid te verlichten, de keel te verzachten en de vitaliteit te verhogen."
+      },
+      "ingredients": {
+        "en": [
+          "Premium Roasted Organic Jasmine Rice",
+          "Aromatic Ginger (Kaempferia galanga)",
+          "Ginger root",
+          "Organic palm sugar",
+          "Pandan leaves",
+          "Mineral water"
+        ],
+        "nl": [
+          "Biologische Jasmijnrijst",
+          "Aromatische Gember (Kaempferia galanga)",
+          "Gemberwortel",
+          "Biologische palmsuiker",
+          "Pandanbladeren",
+          "Mineraalwater"
+        ]
+      },
+      "benefits": {
+        "en": [
+          "Eliminates body aches and muscle fatigue",
+          "Warms the respiratory tract and clears coughs",
+          "Improves appetite and digestive fire",
+          "Sustains natural energy levels without crash"
+        ],
+        "nl": [
+          "Verlicht lichaamspijnen en spiervermoeidheid",
+          "Verwarmt de luchtwegen en verzacht hoest",
+          "Verbetert de eetlust en spijsvertering",
+          "Biedt natuurlijke energie zonder dip"
+        ]
+      },
+      "traditionalExplanation": {
+        "en": "Beras Kencur is the traditional farmers' strength potion in Java, drunk daily before harvesting fields to ward off chills and physical exhaustion.",
+        "nl": "Beras Kencur is de traditionele krachtdrank van boeren op Java, die dagelijks gedronken wordt voor het oogsten om verkoudheid en fysieke uitputting af te weren."
+      },
+      "scientificExplanation": {
+        "en": "Kaempferol and essential oils in Kencur contain strong antibacterial and bronchodilatory properties, helping clear mucus and defend the immune system.",
+        "nl": "Kaempferol en etherische oliën in Kencur bevatten sterke antibacteriële en luchtwegverwijdende eigenschappen, die helpen bij het opruimen van slijm en het verdedigen van het immuunsysteem."
+      },
+      "howToConsume": {
+        "en": "Can be drunk chilled or gently warmed. Shake vigorously before use as rice sediment settles naturally.",
+        "nl": "Kan gekoeld of licht opgewarmd gedronken worden. Krachtig schudden voor gebruik vanwege natuurlijk rijstsediment."
+      },
+      "recommendedConsumption": {
+        "en": "1 bottle (250ml) in the afternoon when energy levels dip.",
+        "nl": "1 fles (250ml) in de middag wanneer uw energieniveau daalt."
+      },
+      "whoShouldUse": {
+        "en": "Perfect for active individuals, athletes, or anyone suffering from muscle soreness, fatigue, or cold symptoms.",
+        "nl": "Perfect voor actieve mensen, atleten of iedereen die last heeft van spierpijn, vermoeidheid of verkoudheidssymptomen."
+      },
+      "warnings": {
+        "en": "Suitable for all ages. Diabetic individuals should monitor consumption due to organic palm sugar.",
+        "nl": "Geschikt voor alle leeftijden. Mensen met diabetes moeten consumptie controleren vanwege de biologische palmsuiker."
+      },
+      "price": 12.5,
+      "stock": 40,
+      "isFeatured": true,
+      "imageUrl": "/src/assets/images/beras_kencur_bottle_1783604905190.jpg"
+    },
+    {
+      "id": "temulawak-vitality",
+      "name": {
+        "en": "Royal Temulawak Guardian (Java Ginger)",
+        "nl": "Koninklijke Temulawak Beschermer (Javaanse Gember)"
+      },
+      "category": "digestive-health",
+      "description": {
+        "en": "A royal digestive guardian. Temulawak (Java ginger) is renowned for protecting the liver, optimizing bile flow, reducing high cholesterol, and detoxifying the internal organs.",
+        "nl": "Een koninklijke spijsverteringsbeschermer. Temulawak (Javaanse gember) staat bekend om het beschermen van de lever, het optimaliseren van de galstroom, het verlagen van cholesterol en het ontgiften van de interne organen."
+      },
+      "ingredients": {
+        "en": [
+          "Fresh Javanese Curcuma (Temulawak)",
+          "Coriander seeds",
+          "Tamarind",
+          "Java long pepper",
+          "Organic raw honey",
+          "Purified water"
+        ],
+        "nl": [
+          "Verse Javaanse Curcuma (Temulawak)",
+          "Korianderzaad",
+          "Tamarinde",
+          "Javaanse lange peper",
+          "Biologische rauwe honing",
+          "Gezuiverd water"
+        ]
+      },
+      "benefits": {
+        "en": [
+          "Shields and detoxifies liver tissue",
+          "Relieves bloating, flatulence, and indigestion",
+          "Supports healthy blood lipid and cholesterol balance",
+          "Enhances gallbladder function and metabolic rate"
+        ],
+        "nl": [
+          "Beschermt en ontgift het leverweefsel",
+          "Verlicht een opgeblazen gevoel en indigestie",
+          "Ondersteunt een gezonde cholesterolbalans",
+          "Verbetert de galblaasfunctie en stofwisseling"
+        ]
+      },
+      "traditionalExplanation": {
+        "en": "Known as the King of Curcumas, Javanese royalty utilized Temulawak as a universal daily purifying tonic to purge toxins from the blood.",
+        "nl": "Temulawak staat bekend als de koning van de curcuma's en werd door de Javaanse adel gebruikt als een universeel dagelijks zuiverend tonicum om gifstoffen uit het bloed te filteren."
+      },
+      "scientificExplanation": {
+        "en": "The active compound Xanthorrhizol, unique to Temulawak, has scientifically proven hepatoprotective (liver-protecting), antioxidant, and antimicrobial qualities.",
+        "nl": "De actieve stof Xanthorrhizol, uniek voor Temulawak, heeft wetenschappelijk bewezen hepatoprotectieve (leverbeschermende), antioxidatieve en antimicrobiële eigenschappen."
+      },
+      "howToConsume": {
+        "en": "Drink chilled after lunch or heavy meals to optimize fat digestion.",
+        "nl": "Drink gekoeld na de lunch of zware maaltijden om de vetvertering te optimaliseren."
+      },
+      "recommendedConsumption": {
+        "en": "1 bottle (250ml) daily after your largest meal.",
+        "nl": "1 fles (250ml) per dag na uw grootste maaltijd."
+      },
+      "whoShouldUse": {
+        "en": "Excellent for people seeking detox, liver support, relief from acid reflux, or healthy lipid levels.",
+        "nl": "Uitstekend voor mensen die op zoek zijn naar detox, leverondersteuning, verlichting van brandend maagzuur of gezonde cholesterolniveaus."
+      },
+      "warnings": {
+        "en": "Do not consume if you have acute gallbladder obstruction or bile duct issues.",
+        "nl": "Niet consumeren bij acute galwegobstructie of galwegproblemen."
+      },
+      "price": 13,
+      "stock": 30,
+      "isFeatured": true,
+      "imageUrl": "/src/assets/images/temulawak_bottle_1783604918337.jpg"
+    }
+  ],
+  "blogs": [
+    {
+      "id": "history-of-jamu",
+      "title": {
+        "en": "The Sacred History of Jamu: Java’s Ancient Royalty Medicine",
+        "nl": "De Heilige Geschiedenis van Jamu: Java’s Oude Koninklijke Medicijn"
+      },
+      "content": {
+        "en": "For over a thousand years, Javanese royalty preserved the secret formulations of **Jamu** within the palace walls of Yogyakarta and Surakarta (Solo). Drawn from Javanese mystical beliefs and a deep understanding of native flora, Jamu is a holistic healing system that predates modern pharmaceuticals by centuries.\n\nIn the relief carvings of the ancient 9th-century **Borobudur Temple**, we find the earliest historical depictions of Javanese herbal preparation: stone reliefs showing women grinding herbs with pestles and serving traditional tonics to royal courts.\n\nJamu is not merely a drink; it is an act of spiritual and physical reconciliation. In royal Javanese lore, the health of the body is a direct reflection of our alignment with nature (*Harmony of Tri Hita Karana*). Herbs are handpicked at dawn when their life forces are believed to be at their absolute zenith. Today, **Djamoe Heritage** carries this thousand-year lineage forward, serving authentic royal recipes right here in the Netherlands.",
+        "nl": "Al meer dan duizend jaar bewaarde de Javaanse adel de geheime formules van **Jamu** binnen de paleismuren van Jogjakarta en Surakarta (Solo). Gebaseerd op Javaanse mystieke overtuigingen en een diep begrip van inheemse flora, is Jamu een holistisch genezingssysteem dat eeuwen ouder is dan de moderne geneeskunde.\n\nIn de reliëfs van de eeuwenoude 9e-eeuwse **Borobudur Tempel** vinden we de vroegste historische afbeeldingen van Javaanse kruidenbereiding: stenen reliëfs die laten zien hoe vrouwen kruiden malen met vijzels en traditionele tonics serveren aan het koninklijk hof.\n\nJamu is niet zomaar een drankje; het is een daad van spirituele en fysieke verzoening. In de koninklijke Javaanse traditie is de gezondheid van het lichaam een directe weerspiegeling van onze harmonie met de natuur. Kruiden worden bij het aanbreken van de dag met de hand geplukt wanneer men gelooft dat hun levenskracht op het absolute hoogtepunt is. Vandaag de dag brengt **Djamoe Heritage** deze duizendjarige traditie naar Nederland."
+      },
+      "excerpt": {
+        "en": "Discover how Javanese royals used hand-selected herbs to maintain eternal youth, vitality, and balance with nature.",
+        "nl": "Ontdek hoe Javaanse koningshuizen met de hand geselecteerde kruiden gebruikten om eeuwige jeugd, vitaliteit en balans te behouden."
+      },
+      "author": "Kartika Hardjowidjojo",
+      "date": "2026-07-01",
+      "category": {
+        "en": "Javanese Wisdom",
+        "nl": "Javaanse Wijsheid"
+      },
+      "seoKeywords": {
+        "en": [
+          "Jamu history",
+          "Borobudur herbs",
+          "Javanese traditional medicine",
+          "Jamu Netherlands"
+        ],
+        "nl": [
+          "Geschiedenis van Jamu",
+          "Borobudur kruiden",
+          "Javaanse traditionele geneeskunde",
+          "Jamu Nederland"
+        ]
+      },
+      "imageUrl": "/src/assets/images/hero_jamu_preparation_1783604874087.jpg"
+    },
+    {
+      "id": "science-behind-turmeric",
+      "title": {
+        "en": "The Science of Turmeric: Modern Proof for Ancient Javanese Remedies",
+        "nl": "De Wetenschap achter Kurkuma: Modern Bewijs voor Oude Javaanse Recepten"
+      },
+      "content": {
+        "en": "For centuries, the Javanese community drank **Kunyit Asam** daily to stave off inflammation, maintain glowing skin, and ease cramps. Modern science has finally caught up with this ancient wisdom, providing molecular proof of what traditional healers have known for millennia.\n\nThe key active ingredient in turmeric is **Curcumin**. Extensive clinical trials have demonstrated that curcumin is a powerful antioxidant and a natural anti-inflammatory agent. It operates by blocking NF-kB, a molecule that travels into the nuclei of cells and turns on genes related to chronic inflammation.\n\nHowever, curcumin is notoriously difficult for the human body to absorb. That is where Javanese preparation excels. Javanese herbalists traditionally combine turmeric with sour **tamarind** and palm sugar. The natural acids in tamarind significantly enhance the bio-solubility of curcumin, optimizing absorption without requiring chemical synthesizers. Our handcrafted Jamu honors these exact biochemical ratios to deliver maximum physical efficacy.",
+        "nl": "Eeuwenlang dronk de Javaanse gemeenschap dagelijks **Kunyit Asam** om ontstekingen te voorkomen, een stralende huid te behouden en krampen te verlichten. De moderne wetenschap heeft deze oude wijsheid eindelijk ingehaald en levert moleculair bewijs voor wat traditionele genezers al millennia weten.\n\nHet belangrijkste actieve ingrediënt in kurkuma is **Curcumine**. Uitgebreide klinische onderzoeken hebben aangetoond dat curcumine een krachtige antioxidant en een natuurlijke ontstekingsremmer is. Het blokkeert moleculen die chronische ontstekingen in cellen activeren.\n\nKurkuma is echter van nature moeilijk op te nemen door het menselijk lichaam. Dat is waar de traditionele Javaanse bereiding uitblinkt. Javaanse kruidenartsen combineren kurkuma traditioneel met zure **tamarinde**. De natuurlijke zuren in tamarinde verbeteren de biologische beschikbaarheid van curcumine aanzienlijk. Ons handgemaakte Jamu eert deze exacte biochemische verhoudingen voor maximale effectiviteit."
+      },
+      "excerpt": {
+        "en": "Explore the modern scientific validation of Curcumin and why traditional Javanese preparation techniques unlock its true therapeutic power.",
+        "nl": "Ontdek het moderne wetenschappelijke bewijs voor Curcumine en waarom traditionele Javaanse bereidingstechnieken de therapeutische kracht ervan ontsluiten."
+      },
+      "author": "Dr. Lukas van der Meer",
+      "date": "2026-07-05",
+      "category": {
+        "en": "Scientific Research",
+        "nl": "Wetenschappelijk Onderzoek"
+      },
+      "seoKeywords": {
+        "en": [
+          "turmeric science",
+          "curcumin absorption",
+          "Kunyit Asam benefits",
+          "Indonesian herbal medicine"
+        ],
+        "nl": [
+          "kurkuma wetenschap",
+          "curcumine opname",
+          "Kunyit Asam voordelen",
+          "Indonesische kruidengeneeskunde"
+        ]
+      },
+      "imageUrl": "/src/assets/images/kunyit_asam_bottle_1783604890128.jpg"
+    }
+  ],
+  "orders": [],
+  "testimonials": [
+    {
+      "id": "test-1",
+      "name": "Saskia de Vries",
+      "role": {
+        "en": "Yoga Instructor, Amsterdam",
+        "nl": "Yogadocent, Amsterdam"
+      },
+      "text": {
+        "en": "Drinking Kunyit Asam from Java Herbal has completely replaced my morning coffee. My joints feel remarkably agile and my skin has a natural, healthy glow. Truly premium quality.",
+        "nl": "Het drinken van Kunyit Asam van Java Herbal heeft mijn ochtendkoffie volledig vervangen. Mijn gewrichten voelen soepeler en mijn huid straalt. Absoluut premium kwaliteit."
+      },
+      "rating": 5,
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80"
+    },
+    {
+      "id": "test-2",
+      "name": "Andres Siregar",
+      "role": {
+        "en": "Software Engineer, Rotterdam",
+        "nl": "Softwareontwikkelaar, Rotterdam"
+      },
+      "text": {
+        "en": "Finding authentic Beras Kencur in the Netherlands was impossible until Java Herbal. The warming ginger flavor takes me right back to Java. It cures my screen fatigue instantly!",
+        "nl": "Het vinden van authentieke Beras Kencur in Nederland was onmogelijk tot Java Herbal. De warme gember smaak brengt me meteen terug naar Java. Het verhelpt mijn vermoeidheid direct!"
+      },
+      "rating": 5,
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80"
+    }
+  ],
+  "seoSettings": {
+    "title": {
+      "en": "Java Herbal | Authentic Royal Javanese Jamu in the Netherlands",
+      "nl": "Java Herbal | Authentieke Koninklijke Javaanse Jamu in Nederland"
+    },
+    "description": {
+      "en": "Experience premium, handcrafted traditional Javanese Jamu herbal drinks in the Netherlands. Fully organic, direct-imported ingredients. Detox, health, and skin radiance.",
+      "nl": "Ervaar premium, handgemaakte traditionele Javaanse Jamu kruidendranken in Nederland. Volledig biologisch, direct geïmporteerd. Detox, gezondheid en een stralende huid."
+    },
+    "keywords": {
+      "en": [
+        "premium jamu netherlands",
+        "authentic indonesian herbal",
+        "kunyit asam amsterdam",
+        "beras kencur rotterdam",
+        "javanese wellness",
+        "organic detox drink"
+      ],
+      "nl": [
+        "premium jamu nederland",
+        "authentieke indonesische kruiden",
+        "kunyit asam amsterdam",
+        "beras kencur rotterdam",
+        "javaanse wellness",
+        "biologische detox drank"
+      ]
+    }
+  },
+  "businessInfo": {
+    "phone": "+31684861301",
+    "email": "info@javaherbal.nl",
+    "address": "Keizersgracht 424, 1016 EK Amsterdam, Netherlands",
+    "mapsEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m12!1m3!1d2436.03554181816!2d4.8837311!3d52.3676759!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c609c1388b1fc5%3A0x6b63d91cf9723ec!2sKeizersgracht%20424%2C%201016%20EK%20Amsterdam!5e0!3m2!1sen!2snl!4v1783604900000!5m2!1sen!2snl",
+    "openingHours": {
+      "en": "Monday - Saturday: 09:00 - 18:00, Sunday: Closed",
+      "nl": "Maandag - Zaterdag: 09:00 - 18:00, Zondag: Gesloten"
+    },
+    "socialMedia": {
+      "instagram": "https://instagram.com/java.herbal",
+      "facebook": "https://facebook.com/java.herbal",
+      "whatsapp": "https://wa.me/31684861301"
+    }
+  },
+  "users": [
+    {
+      "id": "admin-1",
+      "username": "admin",
+      "passwordHash": "jamuheritage2026"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", "Playfair Display", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-display: "Cinzel", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Custom luxury Javanese brand colors */
+  --color-royal-green: #0A2E20; /* Deep luxurious Javanese green */
+  --color-leaf-green: #144D36;  /* Soft fresh herbal green */
+  --color-gold-light: #F4E8C1;  /* Soft antique gold */
+  --color-gold: #D4AF37;        /* Classic metallic gold */
+  --color-gold-dark: #AA7C11;   /* Rich warm gold */
+  --color-cream: #FAF7F0;       /* Antique spa white/cream */
+  --color-wood: #2D1B08;        /* Deep teak wood */
+  --color-charcoal: #1C1917;    /* Charcoal dark base */
+}
+
+/* Custom visual utilities */
+@utility batik-pattern {
+  background-color: var(--color-cream);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23d4af37' fill-opacity='0.035'%3E%3Cpath d='M40 0l40 40-40 40L0 40zM40 10l30 30-30 30-30-30z'/%3E%3Ccircle cx='40' cy='40' r='6'/%3E%3Cpath d='M40 25v10M40 45v10M25 40h10M45 40h10' stroke='%23d4af37' stroke-width='2' stroke-opacity='0.05'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+@utility batik-pattern-dark {
+  background-color: var(--color-royal-green);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23f4e8c1' fill-opacity='0.025'%3E%3Cpath d='M40 0l40 40-40 40L0 40zM40 10l30 30-30 30-30-30z'/%3E%3Ccircle cx='40' cy='40' r='6'/%3E%3Cpath d='M40 25v10M40 45v10M25 40h10M45 40h10' stroke='%23f4e8c1' stroke-width='2' stroke-opacity='0.03'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+@utility wood-gradient {
+  background: linear-gradient(135deg, #3A230C 0%, #1A0D03 100%);
+}
+
+@utility gold-gradient {
+  background: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-gold) 50%, var(--color-gold-dark) 100%);
+}
+
+@utility gold-text-gradient {
+  background: linear-gradient(135deg, #FFF9E6 0%, var(--color-gold) 50%, var(--color-gold-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Luxury card shadow style */
+@utility luxury-shadow {
+  box-shadow: 0 10px 30px -15px rgba(10, 46, 32, 0.15), 0 1px 3px rgba(212, 175, 55, 0.1);
+}
+
+/* Custom scrollbar to match luxury spa theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-royal-green);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-leaf-green);
+}
+
+/* Base styles override */
+html {
+  background-color: #000000; /* Match outer page border color with brand's deep Javanese black */
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #000000;
+  color: var(--color-royal-green);
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+}

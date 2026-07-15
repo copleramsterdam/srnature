@@ -1,0 +1,6 @@
+{
+  "name": "JAVA HERBAL",
+  "description": "Premium Handcrafted Javanese Herbal Jamu E-commerce and Wellness website based in the Netherlands, complete with multilingual support, WhatsApp dispatch order engines, and integrated Gemini AI content creators.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
