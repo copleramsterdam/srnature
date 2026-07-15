@@ -91,6 +91,51 @@ function MainAppContent() {
     verifyAdminToken();
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sectionParam = params.get('section');
+    const productIdParam = params.get('product_id');
+    const blogIdParam = params.get('blog_id');
+
+    if (
+      params.get('weton_tab') || 
+      params.get('weton_name') || 
+      params.get('weton_date') || 
+      params.get('c1_name') || 
+      params.get('c1_date') || 
+      params.get('c2_name') || 
+      params.get('c2_date')
+    ) {
+      setActiveSection('blog');
+      setTimeout(() => {
+        const el = document.getElementById('blog');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 850);
+    } else if (sectionParam) {
+      const allowedSections = ['home', 'shop', 'about', 'blog', 'order', 'admin'];
+      if (allowedSections.includes(sectionParam)) {
+        setActiveSection(sectionParam);
+      }
+    } else if (productIdParam) {
+      setActiveSection('shop');
+    } else if (blogIdParam) {
+      setActiveSection('blog');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      const params = new URLSearchParams(window.location.search);
+      const productIdParam = params.get('product_id');
+      if (productIdParam) {
+        const found = products.find(p => p.id === productIdParam || String(p.id) === String(productIdParam));
+        if (found) {
+          setSelectedProduct(found);
+        }
+      }
+    }
+  }, [products]);
+
   // Update HTML Meta tags in the browser head dynamically based on SEO settings
   useEffect(() => {
     if (seoSettings) {

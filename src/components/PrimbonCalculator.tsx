@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import {
   Sparkles, Heart, Activity, Coffee, Flame, Calendar, RefreshCw, User, HelpCircle, ArrowRight, ShieldCheck, Check
@@ -20,8 +20,8 @@ interface WetonResult {
 export const PrimbonCalculator: React.FC = () => {
   const { t, language } = useLanguage();
   
-  // Tabs: Single Calculator vs. Couple Compatibility
-  const [activeTab, setActiveTab] = useState<'single' | 'couple'>('single');
+  // Tabs: Single Calculator vs. Couple Compatibility vs. Auspicious Days Map
+  const [activeTab, setActiveTab] = useState<'single' | 'couple' | 'haribaik'>('single');
 
   // Single Input State
   const [singleName, setSingleName] = useState('');
@@ -46,6 +46,36 @@ export const PrimbonCalculator: React.FC = () => {
     remedyRecommendation: string;
   }
   const [coupleResult, setCoupleResult] = useState<CoupleResult | null>(null);
+
+  const [copiedSingle, setCopiedSingle] = useState(false);
+  const [copiedCouple, setCopiedCouple] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tabParam = params.get('weton_tab');
+    const wName = params.get('weton_name');
+    const wDate = params.get('weton_date');
+    const c1Name = params.get('c1_name');
+    const c1Date = params.get('c1_date');
+    const c2Name = params.get('c2_name');
+    const c2Date = params.get('c2_date');
+
+    if (tabParam === 'haribaik') {
+      setActiveTab('haribaik');
+    } else if (c1Date && c2Date) {
+      setActiveTab('couple');
+      if (c1Name) setPartner1Name(c1Name);
+      setPartner1Date(c1Date);
+      if (c2Name) setPartner2Name(c2Name);
+      setPartner2Date(c2Date);
+      generateCoupleReport(c1Name || 'Partner 1', c1Date, c2Name || 'Partner 2', c2Date);
+    } else if (wDate) {
+      setActiveTab('single');
+      if (wName) setSingleName(wName);
+      setBirthDate(wDate);
+      generateSingleReport(wName || 'Sobat SR Natural', wDate);
+    }
+  }, [language]);
 
   // Constants
   const daysID = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
@@ -258,12 +288,9 @@ export const PrimbonCalculator: React.FC = () => {
     generateSingleReport(singleName || 'Sobat SR Natural', birthDate);
   };
 
-  const handleCoupleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!partner1Date || !partner2Date) return;
-
-    const p1 = calculateWeton(partner1Date);
-    const p2 = calculateWeton(partner2Date);
+  const generateCoupleReport = (p1Name: string, p1DateStr: string, p2Name: string, p2DateStr: string) => {
+    const p1 = calculateWeton(p1DateStr);
+    const p2 = calculateWeton(p2DateStr);
 
     if (!p1 || !p2) return;
 
@@ -301,7 +328,7 @@ export const PrimbonCalculator: React.FC = () => {
         remedyRecommendation = 'Ritual Royal Boreh Bersama untuk mengunci keharmonisan aura raga berdua.';
       } else if (language === 'nl') {
         compatibilityName = 'RATU (Welvaart & Respect)';
-        compatibilityMeaning = 'Een zeer gerespecteerde, rustige relatie die een positieve invloed heeft op de omgeving. Partners die stabiele welvaart aantrekken.';
+        compatibilityMeaning = 'Een zeer gerespecteerde, rustige relatie die een positieve infloed heeft op de omgeving. Partners die stabiele welvaart aantrekken.';
         remedyRecommendation = 'Gezamenlijke Royal Boreh-ritueel om de harmonie van jullie gezamenlijke aura te bezegelen.';
       } else {
         compatibilityName = 'RATU (Prosperity & Respect)';
@@ -392,7 +419,7 @@ export const PrimbonCalculator: React.FC = () => {
         remedyRecommendation = 'Ritual Spa Tradisional Kraton Jogja / Javanese Lulur Sutra berpasangan.';
       } else if (language === 'nl') {
         compatibilityName = 'PESTHI (Eeuwige Vrede)';
-        compatibilityMeaning = 'Een zeer rustig, vreedzaam en harmonieus gezinsleven zonder noemenswaardige onrust. Een gelukkige toekomst wacht op jullie.';
+        compatibilityMeaning = 'Een zeer rustig, vreedzaam dan wel harmonieus gezinsleven zonder noemenswaardige onrust. Een gelukkige toekomst wacht op jullie.';
         remedyRecommendation = 'Traditionele Kraton Spa-ritueel & Javaanse Lulur voor koppels.';
       } else {
         compatibilityName = 'PESTHI (Eternal Serenity)';
@@ -414,6 +441,12 @@ export const PrimbonCalculator: React.FC = () => {
     });
   };
 
+  const handleCoupleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!partner1Date || !partner2Date) return;
+    generateCoupleReport(partner1Name || 'Partner 1', partner1Date, partner2Name || 'Partner 2', partner2Date);
+  };
+
   const resetSingle = () => {
     setSingleName('');
     setBirthDate('');
@@ -426,6 +459,105 @@ export const PrimbonCalculator: React.FC = () => {
     setPartner2Name('');
     setPartner2Date('');
     setCoupleResult(null);
+  };
+
+  const generateAuspiciousDays = (birthNeptu?: number) => {
+    const days = [];
+    const baseDate = new Date(); // Starts today
+    
+    for (let i = 0; i < 7; i++) {
+      const nextDate = new Date();
+      nextDate.setDate(baseDate.getDate() + i);
+      
+      const yyyy = nextDate.getFullYear();
+      const mm = String(nextDate.getMonth() + 1).padStart(2, '0');
+      const dd = String(nextDate.getDate()).padStart(2, '0');
+      const dateString = `${yyyy}-${mm}-${dd}`;
+      
+      const calc = calculateWeton(dateString);
+      if (calc) {
+        const { dayIndex, pasaranIndex, totalNeptuVal } = calc;
+        const dayLabel = getDayLabel(dayIndex);
+        const pasaranLabel = getPasaranLabel(pasaranIndex);
+        const wetonName = `${dayLabel} ${pasaranLabel}`;
+        
+        // Javanese compatibility logic
+        let rawScore = totalNeptuVal;
+        if (birthNeptu) {
+          rawScore = birthNeptu + totalNeptuVal;
+        }
+        
+        const cycleIndex = rawScore % 5; // 0=Pati, 1=Sandang, 2=Pangan, 3=Gedhong, 4=Loro
+        
+        let status: 'highly_auspicious' | 'auspicious' | 'neutral' | 'cautious' = 'neutral';
+        let statusLabelID = '';
+        let statusLabelEN = '';
+        let statusLabelNL = '';
+        let recommendationID = '';
+        let recommendationEN = '';
+        let recommendationNL = '';
+        let icon = '✨';
+        
+        if (cycleIndex === 1) { // Sandang
+          status = 'highly_auspicious';
+          statusLabelID = 'Sangat Baik (Sandang)';
+          statusLabelEN = 'Highly Auspicious (Sandang)';
+          statusLabelNL = 'Zeer Gunstig (Sandang)';
+          recommendationID = 'Sangat baik untuk memulai diet jamu baru, negosiasi bisnis, dan terapi kebugaran.';
+          recommendationEN = 'Excellent for initiating new herbal diets, business negotiations, and active fitness.';
+          recommendationNL = 'Uitstekend voor het starten van een nieuw jamu-dieet, zakelijke deals en fitness.';
+          icon = '💰';
+        } else if (cycleIndex === 2) { // Pangan
+          status = 'highly_auspicious';
+          statusLabelID = 'Sangat Baik (Pangan)';
+          statusLabelEN = 'Highly Auspicious (Pangan)';
+          statusLabelNL = 'Zeer Gunstig (Pangan)';
+          recommendationID = 'Hari terbaik untuk menikmati Jamu Kunyit Asam hangat dan melakukan perawatan Royal Lulur.';
+          recommendationEN = 'Best day to indulge in warm Turmeric Tamarind Jamu and enjoy a Royal Lulur scrub treatment.';
+          recommendationNL = 'Beste dag om te genieten van warme Kunyit Asam Jamu en een Royal Lulur scrub.';
+          icon = '🌾';
+        } else if (cycleIndex === 3) { // Gedhong
+          status = 'auspicious';
+          statusLabelID = 'Baik (Gedhong)';
+          statusLabelEN = 'Auspicious (Gedhong)';
+          statusLabelNL = 'Gunstig (Gedhong)';
+          recommendationID = 'Aura kemakmuran sedang tinggi. Cocok untuk meditasi ketenangan batin dan pijat relaksasi.';
+          recommendationEN = 'Prosperity aura is high. Great for deep peace meditation and restorative massage.';
+          recommendationNL = 'Voorspoedige aura is sterk. Geweldig voor diepe meditatie en ontspannende massage.';
+          icon = '🏛️';
+        } else if (cycleIndex === 4) { // Loro
+          status = 'cautious';
+          statusLabelID = 'Pemulihan Raga (Loro)';
+          statusLabelEN = 'Physical Recovery (Loro)';
+          statusLabelNL = 'Lichamelijk Herstel (Loro)';
+          recommendationID = 'Waspada kelelahan fisik. Sangat disarankan beristirahat total, pijat kompres hangat, minum Beras Kencur.';
+          recommendationEN = 'Beware of physical fatigue. Highly recommended to rest, take warm compress massage, and sip Beras Kencur.';
+          recommendationNL = 'Pas op voor fysieke vermoeidheid. Rust goed uit, neem warme kompressen en drink Beras Kencur.';
+          icon = '💆';
+        } else { // Pati
+          status = 'neutral';
+          statusLabelID = 'Kontemplasi (Pati)';
+          statusLabelEN = 'Spiritual Introspection (Pati)';
+          statusLabelNL = 'Spirituele Bezinning (Pati)';
+          recommendationID = 'Kurangi aktivitas berisiko tinggi. Sempurna untuk yoga ringan, mandi kembang, dan minum Temulawak hangat.';
+          recommendationEN = 'Avoid high-risk ventures. Perfect for gentle yoga, flower bath ritual, and drinking warm Temulawak.';
+          recommendationNL = 'Vermijd risicovolle stappen. Perfect voor zachte yoga, bloemenbadritueel en warme Temulawak.';
+          icon = '🧘';
+        }
+        
+        days.push({
+          date: nextDate.toLocaleDateString(language === 'id' ? 'id-ID' : language === 'nl' ? 'nl-NL' : 'en-US', { day: 'numeric', month: 'short' }),
+          weekday: nextDate.toLocaleDateString(language === 'id' ? 'id-ID' : language === 'nl' ? 'nl-NL' : 'en-US', { weekday: 'long' }),
+          wetonName,
+          totalNeptu: totalNeptuVal,
+          status,
+          statusLabel: language === 'id' ? statusLabelID : language === 'nl' ? statusLabelNL : statusLabelEN,
+          recommendation: language === 'id' ? recommendationID : language === 'nl' ? recommendationNL : recommendationEN,
+          icon
+        });
+      }
+    }
+    return days;
   };
 
   return (
@@ -452,10 +584,10 @@ export const PrimbonCalculator: React.FC = () => {
 
         {/* Tab Toggle Buttons */}
         <div className="flex justify-center mt-4">
-          <div className="flex bg-cream p-1 rounded-full border border-gold/15">
+          <div className="flex flex-wrap justify-center bg-cream p-1 rounded-full border border-gold/15 gap-1">
             <button
               onClick={() => { setActiveTab('single'); }}
-              className={`px-5 py-2 rounded-full text-xs font-serif font-bold transition-all cursor-pointer ${
+              className={`px-4 sm:px-5 py-2 rounded-full text-xs font-serif font-bold transition-all cursor-pointer ${
                 activeTab === 'single' ? 'bg-royal-green text-cream shadow-md' : 'text-royal-green/70 hover:text-royal-green'
               }`}
             >
@@ -463,11 +595,21 @@ export const PrimbonCalculator: React.FC = () => {
             </button>
             <button
               onClick={() => { setActiveTab('couple'); }}
-              className={`px-5 py-2 rounded-full text-xs font-serif font-bold transition-all cursor-pointer ${
+              className={`px-4 sm:px-5 py-2 rounded-full text-xs font-serif font-bold transition-all cursor-pointer ${
                 activeTab === 'couple' ? 'bg-royal-green text-cream shadow-md' : 'text-royal-green/70 hover:text-royal-green'
               }`}
             >
               {language === 'id' ? 'Kecocokan Jodoh' : language === 'nl' ? 'Relatie Match' : 'Couple Compatibility'}
+            </button>
+            <button
+              onClick={() => { setActiveTab('haribaik'); }}
+              className={`px-4 sm:px-5 py-2 rounded-full text-xs font-serif font-bold transition-all cursor-pointer flex items-center space-x-1 ${
+                activeTab === 'haribaik' ? 'bg-royal-green text-cream shadow-md' : 'text-royal-green/70 hover:text-royal-green'
+              }`}
+              id="tab-peta-hari-baik"
+            >
+              <Sparkles className="w-3 h-3 text-gold" />
+              <span>{language === 'id' ? 'Peta Hari Baik' : language === 'nl' ? 'Gunstige Dagen' : 'Auspicious Days Map'}</span>
             </button>
           </div>
         </div>
@@ -510,6 +652,63 @@ export const PrimbonCalculator: React.FC = () => {
                       required
                     />
                   </div>
+                </div>
+              </div>
+
+              {/* Shortcut Buttons / Tombol Pintasan */}
+              <div className="space-y-1.5 pb-1">
+                <span className="text-[9px] font-mono text-royal-green/60 uppercase font-bold tracking-wider block">
+                  {language === 'id' ? '⚡ Pintasan Weton Lahir:' : language === 'nl' ? '⚡ Snelle Weton Selectie:' : '⚡ Quick Weton Select:'}
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSingleName(language === 'id' ? 'Sobat SR Natural' : 'SR Natural Guest');
+                      const today = new Date();
+                      const yyyy = today.getFullYear();
+                      const mm = String(today.getMonth() + 1).padStart(2, '0');
+                      const dd = String(today.getDate()).padStart(2, '0');
+                      setBirthDate(`${yyyy}-${mm}-${dd}`);
+                    }}
+                    className="text-[10px] px-2.5 py-1 rounded-full bg-gold/10 border border-gold/20 text-gold-dark hover:bg-gold/25 transition-all font-mono cursor-pointer flex items-center space-x-1"
+                  >
+                    <span>📅</span>
+                    <span>{language === 'id' ? 'Hari Ini (Today)' : language === 'nl' ? 'Vandaag' : 'Today'}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSingleName('R.A. Kartini');
+                      setBirthDate('1879-04-21');
+                    }}
+                    className="text-[10px] px-2.5 py-1 rounded-full bg-royal-green/5 border border-royal-green/10 text-royal-green/80 hover:bg-royal-green/10 transition-all font-mono cursor-pointer flex items-center space-x-1"
+                  >
+                    <span>👩</span>
+                    <span>Kartini (21 Apr 1879)</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSingleName('Ir. Soekarno');
+                      setBirthDate('1901-06-06');
+                    }}
+                    className="text-[10px] px-2.5 py-1 rounded-full bg-royal-green/5 border border-royal-green/10 text-royal-green/80 hover:bg-royal-green/10 transition-all font-mono cursor-pointer flex items-center space-x-1"
+                  >
+                    <span>🇮🇩</span>
+                    <span>Soekarno (6 Jun 1901)</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSingleName('K.H. Dewantara');
+                      setBirthDate('1889-05-02');
+                    }}
+                    className="text-[10px] px-2.5 py-1 rounded-full bg-royal-green/5 border border-royal-green/10 text-royal-green/80 hover:bg-royal-green/10 transition-all font-mono cursor-pointer flex items-center space-x-1"
+                  >
+                    <span>🎓</span>
+                    <span>Ki Hajar (2 Mei 1889)</span>
+                  </button>
                 </div>
               </div>
 
@@ -619,11 +818,35 @@ export const PrimbonCalculator: React.FC = () => {
 
                 </div>
 
-                {/* Reset button */}
-                <div className="flex justify-end">
+                {/* Reset & Share buttons */}
+                <div className="flex flex-col sm:flex-row sm:justify-between items-center gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const shareUrl = `${window.location.origin}${window.location.pathname}?weton_tab=single&weton_name=${encodeURIComponent(singleName || 'Sobat SR Natural')}&weton_date=${encodeURIComponent(birthDate)}`;
+                      navigator.clipboard.writeText(shareUrl).then(() => {
+                        setCopiedSingle(true);
+                        setTimeout(() => setCopiedSingle(false), 2500);
+                      });
+                    }}
+                    className="w-full sm:w-auto px-5 py-2.5 bg-gold hover:bg-gold-light text-royal-green text-xs font-serif font-bold tracking-wider uppercase rounded-full transition-all cursor-pointer flex items-center justify-center space-x-2 shadow-md border border-gold/40 hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    {copiedSingle ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-royal-green animate-bounce" />
+                        <span>{language === 'id' ? 'Tautan Berhasil Disalin!' : language === 'nl' ? 'Link Gekopieerd!' : 'Link Copied!'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-3.5 h-3.5 text-royal-green" />
+                        <span>{language === 'id' ? 'Bagikan Hasil Weton (Salin Link)' : language === 'nl' ? 'Deel Resultaat (Kopieer Link)' : 'Share Results (Copy Link)'}</span>
+                      </>
+                    )}
+                  </button>
+
                   <button
                     onClick={resetSingle}
-                    className="px-5 py-2.5 bg-royal-green/10 hover:bg-royal-green/20 border border-royal-green/15 text-royal-green text-xs font-serif font-bold tracking-wider uppercase rounded-full transition-all cursor-pointer"
+                    className="w-full sm:w-auto px-5 py-2.5 bg-royal-green/10 hover:bg-royal-green/20 border border-royal-green/15 text-royal-green text-xs font-serif font-bold tracking-wider uppercase rounded-full transition-all cursor-pointer"
                   >
                     {language === 'id' ? 'Hitung Tanggal Lain' : language === 'nl' ? 'Bereken Andere Datum' : 'Check Another Date'}
                   </button>
@@ -705,6 +928,54 @@ export const PrimbonCalculator: React.FC = () => {
                   </div>
                 </div>
 
+              </div>
+
+              {/* Shortcut Buttons / Tombol Pintasan */}
+              <div className="space-y-1.5 pb-1">
+                <span className="text-[9px] font-mono text-royal-green/60 uppercase font-bold tracking-wider block">
+                  {language === 'id' ? '⚡ Pintasan Pasangan Mitologi Jawa:' : language === 'nl' ? '⚡ Snelle Javaanse Paren:' : '⚡ Quick Javanese Couples:'}
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPartner1Name('Rama');
+                      setPartner1Date('1985-04-12');
+                      setPartner2Name('Shinta');
+                      setPartner2Date('1988-08-18');
+                    }}
+                    className="text-[10px] px-2.5 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-850 hover:bg-rose-100 transition-all font-mono cursor-pointer flex items-center space-x-1"
+                  >
+                    <span>🏹</span>
+                    <span>Rama & Shinta</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPartner1Name('B. Bondowoso');
+                      setPartner1Date('1987-03-05');
+                      setPartner2Name('Roro Jonggrang');
+                      setPartner2Date('1990-11-21');
+                    }}
+                    className="text-[10px] px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-850 hover:bg-amber-100 transition-all font-mono cursor-pointer flex items-center space-x-1"
+                  >
+                    <span>🏰</span>
+                    <span>Bondowoso & Jonggrang</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPartner1Name('Panji Asmorobangun');
+                      setPartner1Date('1991-01-22');
+                      setPartner2Name('Dewi Sekartaji');
+                      setPartner2Date('1993-10-09');
+                    }}
+                    className="text-[10px] px-2.5 py-1 rounded-full bg-teal-50 border border-teal-250 text-teal-850 hover:bg-teal-100 transition-all font-mono cursor-pointer flex items-center space-x-1"
+                  >
+                    <span>🎭</span>
+                    <span>Panji & Sekartaji</span>
+                  </button>
+                </div>
               </div>
 
               <button
@@ -793,11 +1064,35 @@ export const PrimbonCalculator: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Reset button */}
-                <div className="flex justify-end">
+                {/* Reset & Share buttons */}
+                <div className="flex flex-col sm:flex-row sm:justify-between items-center gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const shareUrl = `${window.location.origin}${window.location.pathname}?c1_name=${encodeURIComponent(partner1Name || 'Partner 1')}&c1_date=${encodeURIComponent(partner1Date)}&c2_name=${encodeURIComponent(partner2Name || 'Partner 2')}&c2_date=${encodeURIComponent(partner2Date)}`;
+                      navigator.clipboard.writeText(shareUrl).then(() => {
+                        setCopiedCouple(true);
+                        setTimeout(() => setCopiedCouple(false), 2500);
+                      });
+                    }}
+                    className="w-full sm:w-auto px-5 py-2.5 bg-gold hover:bg-gold-light text-royal-green text-xs font-serif font-bold tracking-wider uppercase rounded-full transition-all cursor-pointer flex items-center justify-center space-x-2 shadow-md border border-gold/40 hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    {copiedCouple ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-royal-green animate-bounce" />
+                        <span>{language === 'id' ? 'Tautan Berhasil Disalin!' : language === 'nl' ? 'Link Gekopieerd!' : 'Link Copied!'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Heart className="w-3.5 h-3.5 text-royal-green" />
+                        <span>{language === 'id' ? 'Bagikan Hasil Jodoh (Salin Link)' : language === 'nl' ? 'Deel Match (Kopieer Link)' : 'Share Match (Copy Link)'}</span>
+                      </>
+                    )}
+                  </button>
+
                   <button
                     onClick={resetCouple}
-                    className="px-5 py-2.5 bg-royal-green/10 hover:bg-royal-green/20 border border-royal-green/15 text-royal-green text-xs font-serif font-bold tracking-wider uppercase rounded-full transition-all cursor-pointer"
+                    className="w-full sm:w-auto px-5 py-2.5 bg-royal-green/10 hover:bg-royal-green/20 border border-royal-green/15 text-royal-green text-xs font-serif font-bold tracking-wider uppercase rounded-full transition-all cursor-pointer"
                   >
                     {language === 'id' ? 'Cek Kecocokan Lain' : language === 'nl' ? 'Bereken Andere Match' : 'Check Another Couple'}
                   </button>
@@ -806,6 +1101,175 @@ export const PrimbonCalculator: React.FC = () => {
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* AUSPICIOUS DAYS MAP TAB (PETA HARI BAIK) */}
+      {activeTab === 'haribaik' && (
+        <div className="space-y-6 animate-fade-in" id="peta-hari-baik-section">
+          
+          {/* Legend and Intro */}
+          <div className="bg-cream/35 border border-gold/25 p-5 sm:p-6 rounded-2xl space-y-4">
+            <div className="flex items-center space-x-2 text-royal-green border-b border-gold/15 pb-2">
+              <Sparkles className="w-5 h-5 text-gold-dark" />
+              <h4 className="font-serif font-bold text-sm uppercase tracking-wider">
+                {language === 'id' ? 'Sistem Hari Baik Javanese Primbon' : language === 'nl' ? 'Javaans Gunstig Dagensysteem' : 'Javanese Auspicious Days Almanac'}
+              </h4>
+            </div>
+            
+            <p className="text-xs text-royal-green/80 leading-relaxed font-light">
+              {language === 'id'
+                ? 'Dalam tradisi Jawa, kecocokan energi hari dihitung menggunakan perputaran Pancawara (Pasaran) dan Saptawara (Hari). Siklus "Sandang, Pangan, Gedhong, Loro, Pati" menunjukkan bagaimana alam memancarkan getaran selaras bagi tubuh, pikiran, dan rezeki Anda.'
+                : language === 'nl'
+                ? 'In de Javaanse traditie wordt de energie van een dag berekend met de cyclus van de Pancawara (Pasaran) en Saptawara (Weekdagen). De cyclus "Sandang, Pangan, Gedhong, Loro, Pati" laat zien hoe de natuur harmonieuze vibraties uitstraalt voor uw lichaam en welvaart.'
+                : 'In Javanese tradition, daily cosmic energy is computed using the combined cycles of Pancawara (Pasaran) and Saptawara (Weekdays). The cyclical sequence "Sandang, Pangan, Gedhong, Loro, Pati" dictates how nature radiates harmonious vibrations for your mind, body, and wealth.'}
+            </p>
+
+            {/* Visual Legend */}
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5 pt-2">
+              <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl text-center">
+                <span className="text-xs">💰</span>
+                <div className="text-[10px] font-serif font-bold text-emerald-800 mt-1">Sandang</div>
+                <div className="text-[8px] text-emerald-700/80 font-mono uppercase mt-0.5">{language === 'id' ? 'Sangat Baik' : 'Highly Good'}</div>
+              </div>
+              <div className="p-2.5 bg-emerald-50 border border-emerald-250 rounded-xl text-center">
+                <span className="text-xs">🌾</span>
+                <div className="text-[10px] font-serif font-bold text-emerald-850 mt-1">Pangan</div>
+                <div className="text-[8px] text-emerald-700/80 font-mono uppercase mt-0.5">{language === 'id' ? 'Sangat Baik' : 'Highly Good'}</div>
+              </div>
+              <div className="p-2.5 bg-teal-50 border border-teal-200 rounded-xl text-center">
+                <span className="text-xs">🏛️</span>
+                <div className="text-[10px] font-serif font-bold text-teal-850 mt-1">Gedhong</div>
+                <div className="text-[8px] text-teal-700/80 font-mono uppercase mt-0.5">{language === 'id' ? 'Baik / Berkah' : 'Auspicious'}</div>
+              </div>
+              <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-center">
+                <span className="text-xs">💆</span>
+                <div className="text-[10px] font-serif font-bold text-amber-850 mt-1">Loro</div>
+                <div className="text-[8px] text-amber-700/80 font-mono uppercase mt-0.5">{language === 'id' ? 'Pemulihan / Rest' : 'Recovery'}</div>
+              </div>
+              <div className="p-2.5 bg-stone-50 border border-gold/15 rounded-xl text-center col-span-2 md:col-span-1">
+                <span className="text-xs">🧘</span>
+                <div className="text-[10px] font-serif font-bold text-royal-green mt-1">Pati</div>
+                <div className="text-[8px] text-royal-green/60 font-mono uppercase mt-0.5">{language === 'id' ? 'Kontemplasi' : 'Meditation'}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Persona Selection status */}
+          <div className="bg-white border border-gold/15 p-4 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="text-center sm:text-left">
+              <span className="text-[9px] font-mono text-gold-dark font-bold uppercase tracking-widest block">
+                {language === 'id' ? 'Sifat Kalender' : 'Calendar Mode'}
+              </span>
+              <p className="text-xs font-serif text-royal-green font-bold">
+                {singleResult 
+                  ? (language === 'id' ? `Disesuaikan untuk: ${singleName} (Neptu ${singleResult.totalNeptu})` : `Personalized for: ${singleName} (Neptu ${singleResult.totalNeptu})`)
+                  : (language === 'id' ? 'Kalender Hari Baik Umum (Gunakan Tab Cek Weton untuk Personalisasi)' : 'General Auspicious Days (Check your Weton for a personalized map!)')}
+              </p>
+            </div>
+            {singleResult && (
+              <button
+                onClick={() => {
+                  // Trigger clear
+                  resetSingle();
+                }}
+                className="text-[9px] uppercase font-mono px-3 py-1.5 rounded-full border border-gold/20 text-gold-dark hover:bg-gold/5 transition-all cursor-pointer"
+              >
+                {language === 'id' ? 'Gunakan Umum' : 'Switch to General'}
+              </button>
+            )}
+          </div>
+
+          {/* Interactive 7-Day Forecast Map */}
+          <div className="space-y-3">
+            <h5 className="font-serif font-bold text-xs text-royal-green uppercase tracking-wider block">
+              {language === 'id' ? 'Peta Prakiraan Hari Baik (7 Hari ke Depan)' : language === 'nl' ? 'Gunstige Dagenkaart (Volgende 7 Dagen)' : 'Auspicious Days Forecast Map (Next 7 Days)'}
+            </h5>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {generateAuspiciousDays(singleResult?.totalNeptu).map((day, idx) => (
+                <div 
+                  key={idx}
+                  className={`p-5 rounded-2xl border transition-all duration-300 flex items-start space-x-4 ${
+                    day.status === 'highly_auspicious'
+                      ? 'bg-emerald-50/40 border-emerald-200 hover:border-emerald-350 shadow-xs'
+                      : day.status === 'auspicious'
+                      ? 'bg-teal-50/40 border-teal-200 hover:border-teal-350 shadow-xs'
+                      : day.status === 'cautious'
+                      ? 'bg-amber-50/40 border-amber-200 hover:border-amber-350 shadow-xs'
+                      : 'bg-stone-50 border-gold/15 hover:border-gold/30'
+                  }`}
+                >
+                  <div className={`p-2.5 rounded-xl text-center flex-shrink-0 ${
+                    day.status === 'highly_auspicious'
+                      ? 'bg-emerald-100 text-emerald-800 border border-emerald-250'
+                      : day.status === 'auspicious'
+                      ? 'bg-teal-100 text-teal-850 border border-teal-250'
+                      : day.status === 'cautious'
+                      ? 'bg-amber-100 text-amber-850 border border-amber-250'
+                      : 'bg-stone-100 text-royal-green border border-gold/10'
+                  }`}>
+                    <span className="text-lg block leading-none">{day.icon}</span>
+                    <span className="text-[9px] font-mono font-bold uppercase block mt-1">
+                      Neptu {day.totalNeptu}
+                    </span>
+                  </div>
+
+                  <div className="space-y-1 flex-grow">
+                    <div className="flex flex-wrap items-center justify-between gap-1.5">
+                      <span className="text-[10px] font-mono text-royal-green/60">
+                        {day.weekday}, {day.date}
+                      </span>
+                      
+                      <span className={`text-[9px] font-serif font-bold px-2 py-0.5 rounded-full border ${
+                        day.status === 'highly_auspicious'
+                          ? 'bg-emerald-100 text-emerald-850 border-emerald-250'
+                          : day.status === 'auspicious'
+                          ? 'bg-teal-100 text-teal-850 border-teal-250'
+                          : day.status === 'cautious'
+                          ? 'bg-amber-100 text-amber-850 border-amber-250'
+                          : 'bg-stone-100 text-royal-green/80 border-gold/10'
+                      }`}>
+                        {day.statusLabel}
+                      </span>
+                    </div>
+
+                    <h6 className="font-serif font-bold text-sm text-royal-green">
+                      {day.wetonName}
+                    </h6>
+                    
+                    <p className="text-[11px] text-royal-green/75 leading-relaxed font-light">
+                      {day.recommendation}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Dynamic Banner to check treatments/herbs */}
+          <div className="bg-royal-green border border-gold/30 p-5 rounded-2xl text-cream flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="space-y-1.5 text-center md:text-left">
+              <span className="text-[10px] font-mono text-gold uppercase tracking-widest font-bold">
+                {language === 'id' ? 'HARMONI ENERGI TUBUH' : 'PHYSICAL ENERGY HARMONY'}
+              </span>
+              <h5 className="font-serif text-lg font-bold text-gold">
+                {language === 'id' ? 'Sesuaikan Perawatan Sesuai Prakiraan Hari' : 'Tailor Your Herbal Treatments & Spa Daily'}
+              </h5>
+              <p className="text-xs text-cream/80 max-w-xl font-light leading-relaxed">
+                {language === 'id'
+                  ? 'Gunakan hari Sandang & Pangan untuk terapi pengaktifan energi rezeki raga, hari Loro untuk pemulihan mendalam dengan pijat rempah hangat, dan hari Pati untuk detoksifikasi jiwa.'
+                  : 'Utilize your Sandang & Pangan days for prosperity and vitality therapies, your Loro days for deep healing warm compresses, and your Pati days for mental-spiritual cleansing.'}
+              </p>
+            </div>
+            <a
+              href="#services"
+              className="px-5 py-2.5 bg-gold hover:bg-cream text-royal-green font-serif font-bold text-xs uppercase tracking-wider rounded-full transition-all text-center"
+            >
+              {language === 'id' ? 'Lihat Layanan Terapi' : 'Explore Spa Therapies'}
+            </a>
+          </div>
+
         </div>
       )}
 

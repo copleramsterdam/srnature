@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BlogPost } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { Sparkles, Calendar, User, Search, BookOpen, X, Hash } from 'lucide-react';
@@ -14,6 +14,38 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ blogs }) => {
   const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeMenu, setActiveMenu] = useState<'articles' | 'primbon'>('articles');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (
+      params.get('weton_tab') || 
+      params.get('weton_name') || 
+      params.get('weton_date') || 
+      params.get('c1_name') || 
+      params.get('c1_date') || 
+      params.get('c2_name') || 
+      params.get('c2_date')
+    ) {
+      setActiveMenu('primbon');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (blogs && blogs.length > 0) {
+      const params = new URLSearchParams(window.location.search);
+      const blogIdParam = params.get('blog_id');
+      if (blogIdParam) {
+        const found = blogs.find(b => b.id === blogIdParam || b.slug === blogIdParam);
+        if (found) {
+          setSelectedBlog(found);
+          setTimeout(() => {
+            const el = document.getElementById('blog');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }, 800);
+        }
+      }
+    }
+  }, [blogs]);
 
   const filteredBlogs = blogs.filter(b => {
     const titleText = translate(b.title).toLowerCase();
