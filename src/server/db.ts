@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { DatabaseSchema, Product, BlogPost, Testimonial, Order, SeoSettings, BusinessInfo, MassageService } from '../types';
-import { db } from '../db/index.ts';
-import { users, products, blogs, testimonials, orders, seoSettings, businessInfo, services } from '../db/schema.ts';
+import { db } from '../db/index';
+import { users, products, blogs, testimonials, orders, seoSettings, businessInfo, services } from '../db/schema';
 import { eq, notInArray } from 'drizzle-orm';
 
 const DB_FILE = path.join(process.cwd(), 'db.json');
