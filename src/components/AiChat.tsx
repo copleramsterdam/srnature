@@ -68,6 +68,11 @@ export function AiChat({ onBack }: AiChatProps) {
       en: 'Sari is reading ancient scrolls...',
       nl: 'Sari raadpleegt oude geschriften...',
       id: 'Sari sedang membaca serat kuno...'
+    },
+    errorResponse: {
+      en: 'My sincere apologies, but I am currently unable to access the herbal archives or generate a response. Please ask me again in a short moment, or consult our therapeutic remedies directly.',
+      nl: 'Mijn oprechte excuses, maar ik kan momenteel geen verbinding maken met onze kruidenkennis om u te antwoorden. Probeer het over een ogenblik nogmaals of bekijk direct onze producten.',
+      id: 'Mohon maaf yang sebesar-besarnya, saat ini saya tidak dapat mengakses catatan herbal kuno atau memberikan jawaban. Silakan coba tanyakan kembali beberapa saat lagi.'
     }
   };
 
@@ -121,14 +126,21 @@ export function AiChat({ onBack }: AiChatProps) {
 
       if (res.ok) {
         const data = await res.json();
-        setMessages(prev => [...prev, { role: 'model', text: data.text || 'Error retrieving response.' }]);
+        if (data.text) {
+          setMessages(prev => [...prev, { role: 'model', text: data.text }]);
+        } else {
+          setMessages(prev => [...prev, { role: 'model', text: getTranslation(t.errorResponse) }]);
+        }
       } else {
-        const errData = await res.json();
-        setMessages(prev => [...prev, { role: 'model', text: errData.error || 'Something went wrong.' }]);
+        try {
+          const errData = await res.json();
+          console.error('Gemini error response:', errData);
+        } catch (_) {}
+        setMessages(prev => [...prev, { role: 'model', text: getTranslation(t.errorResponse) }]);
       }
     } catch (err) {
-      console.error(err);
-      setMessages(prev => [...prev, { role: 'model', text: 'Network connection error.' }]);
+      console.error('Network or chat error:', err);
+      setMessages(prev => [...prev, { role: 'model', text: getTranslation(t.errorResponse) }]);
     } finally {
       setIsTyping(false);
     }
