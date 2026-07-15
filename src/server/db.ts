@@ -871,6 +871,10 @@ let memoryDb: DatabaseSchema | null = null;
 let isInitializing = false;
 
 async function syncWithCloudSQL() {
+  if (!process.env.SQL_HOST) {
+    console.warn('SQL_HOST environment variable not set. Running in-memory database only.');
+    return;
+  }
   console.log('Synchronizing with Cloud SQL PostgreSQL...');
   try {
     // 1. Users
@@ -995,6 +999,10 @@ async function syncWithCloudSQL() {
 }
 
 export async function syncWriteToCloudSQL(data: DatabaseSchema) {
+  if (!process.env.SQL_HOST) {
+    console.warn('SQL_HOST environment variable not set. Skipping Cloud SQL background persistence.');
+    return;
+  }
   console.log('Persisting changes to Cloud SQL PostgreSQL in the background...');
   try {
     // 1. Products

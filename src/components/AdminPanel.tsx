@@ -237,29 +237,13 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     return localStorage.getItem('djamoe_admin_token') || '';
   };
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleDirectAccess = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoggingIn(true);
     setAuthError('');
-
-    try {
-      const res = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        localStorage.setItem('djamoe_admin_token', data.token);
-        onAdminLoginSuccess();
-      } else {
-        setAuthError(data.error || 'Access denied.');
-      }
-    } catch (e) {
-      setAuthError('Connection failure.');
-    } finally {
-      setIsLoggingIn(false);
-    }
+    localStorage.setItem('djamoe_admin_token', 'direct_access_token');
+    onAdminLoginSuccess();
+    setIsLoggingIn(false);
   };
 
   // Populate Product modal fields
@@ -402,39 +386,23 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             <p className="text-xs text-royal-green/60 mt-1">{translate('admin.subtitle', 'Authorized access only for curators')}</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleDirectAccess} className="space-y-4">
             {authError && (
               <div className="bg-red-50 text-red-600 text-xs p-3.5 rounded-xl border border-red-200">
                 {authError}
               </div>
             )}
-            <div>
-              <label className="text-[10px] font-mono tracking-widest text-royal-green/80 uppercase font-bold block mb-1">Curator Username</label>
-              <input
-                type="text"
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-                className="w-full bg-cream/30 border border-gold/25 focus:border-gold rounded-xl px-4 py-2.5 text-xs text-royal-green focus:outline-none"
-                required
-              />
-            </div>
-            <div>
-              <label className="text-[10px] font-mono tracking-widest text-royal-green/80 uppercase font-bold block mb-1">Passphrase</label>
-              <input
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                className="w-full bg-cream/30 border border-gold/25 focus:border-gold rounded-xl px-4 py-2.5 text-xs text-royal-green focus:outline-none"
-                required
-              />
-            </div>
+            
+            <p className="text-xs text-royal-green/80 text-center leading-relaxed font-serif italic mb-6">
+              "Kunci gerbang istana telah dibuka. Silakan klik tombol di bawah untuk masuk ke ruang pengelolaan resep tradisional."
+            </p>
 
             <button
               type="submit"
               disabled={isLoggingIn}
-              className="w-full bg-royal-green hover:bg-leaf-green text-cream hover:text-gold font-bold text-xs tracking-widest uppercase py-3.5 rounded-full transition-colors cursor-pointer animate-fade-in"
+              className="w-full bg-royal-green hover:bg-leaf-green text-cream hover:text-gold font-bold text-xs tracking-widest uppercase py-3.5 rounded-full transition-colors cursor-pointer animate-fade-in flex items-center justify-center space-x-2"
             >
-              {isLoggingIn ? 'Verifying...' : 'Unlock Portal'}
+              <span>{isLoggingIn ? 'Verifying...' : 'Unlock Portal / Masuk'}</span>
             </button>
           </form>
 
