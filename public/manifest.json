@@ -1,0 +1,24 @@
+{
+  "name": "SR Nature & Aromatherapy",
+  "short_name": "SR Nature",
+  "description": "Premium Javanese Jamu & Traditional Spa Massage Wellness in Amsterdam",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B2B1B",
+  "theme_color": "#0B2B1B",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/src/assets/images/sr_nature_logo_1783939605671.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/src/assets/images/sr_nature_logo_1783939605671.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

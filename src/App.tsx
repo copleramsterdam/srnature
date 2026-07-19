@@ -10,6 +10,7 @@ import { BlogSection } from './components/BlogSection';
 import { AdminPanel } from './components/AdminPanel';
 import { ScrollReveal } from './components/ScrollReveal';
 import { Footer } from './components/Footer';
+import { MobileBottomNav } from './components/MobileBottomNav';
 import { Product, BlogPost, Order, SeoSettings, BusinessInfo } from './types';
 import { Sparkles, Star, MapPin, RefreshCw, AlertCircle, ShoppingBag, Leaf, MessageCircle, CalendarRange, X, Bot } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -52,6 +53,10 @@ function MainAppContent() {
 
   // Blog active menu state
   const [blogInitialMenu, setBlogInitialMenu] = useState<'articles' | 'primbon'>('articles');
+
+  // PWA install banner states
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallBanner, setShowInstallBanner] = useState(false);
 
   // Categories list definition
   const categories = [
@@ -167,6 +172,38 @@ function MainAppContent() {
       metaKeys.setAttribute('content', keys || "SR Natural Produk, herbal, Indonesia");
     }
   }, [seoSettings, language]);
+
+  // PWA beforeinstallprompt catcher
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      // Show install recommendation on mobile devices
+      if (window.innerWidth < 768) {
+        setShowInstallBanner(true);
+      }
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    // If already running in standalone mode, do not show
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setShowInstallBanner(false);
+    }
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallApp = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response to installation: ${outcome}`);
+    setDeferredPrompt(null);
+    setShowInstallBanner(false);
+  };
 
   const loadDatabase = async () => {
     setIsLoading(true);
@@ -591,32 +628,10 @@ function MainAppContent() {
         isAdded={!!selectedProduct && !!selectedProducts.find(p => p.id === selectedProduct.id)}
       />
 
-      {/* FLOATING PRIMBON JAWAS CUTOUT FOR HOME PAGE */}
-      {activeSection === 'home' && (
-        <div className="fixed bottom-6 right-6 z-50" id="floating-primbon-shortcut">
-          <div className="relative group">
-            {/* Animated Gold pulsing rings */}
-            <span className="absolute -inset-1.5 rounded-full bg-gold/30 animate-ping pointer-events-none" />
-            <span className="absolute -inset-2.5 rounded-full bg-royal-green/15 animate-pulse pointer-events-none" style={{ animationDuration: '3s' }} />
-            
-            <motion.button
-              onClick={handleNavigateToPrimbon}
-              className="px-5 h-14 rounded-full bg-royal-green border-2 border-gold text-gold hover:bg-royal-green/90 shadow-2xl relative z-10 flex items-center justify-center space-x-2.5 transition-colors duration-300 group cursor-pointer"
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Sparkles className="w-5 h-5 text-gold animate-pulse" />
-              <span className="font-serif text-xs font-bold tracking-wider uppercase">
-                {language === 'id' ? 'Cek Primbon Weton' : language === 'nl' ? 'Javaanse Weton' : 'Check Javanese Weton'}
-              </span>
-            </motion.button>
-          </div>
-        </div>
-      )}
 
       {/* PERSISTENT FLOATING WHATSAPP QUICK ACCESS & ORDER ENGINE */}
       {activeSection !== 'home' && activeSection !== 'admin' && (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end" id="floating-whatsapp-widget">
+        <div className="fixed bottom-24 md:bottom-6 right-6 z-40 flex flex-col items-end" id="floating-whatsapp-widget">
         <AnimatePresence>
           {isWhatsAppMenuOpen && (
             <motion.div
@@ -778,6 +793,62 @@ function MainAppContent() {
         </div>
       </div>
       )}
+
+      {/* MOBILE BOTTOM NAVIGATION BAR */}
+      {activeSection !== 'admin' && (
+        <MobileBottomNav
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+          onNavigateToPrimbon={handleNavigateToPrimbon}
+          selectedProductsLength={selectedProducts.length}
+        />
+      )}
+
+      {/* PWA CUSTOM SLIDE-UP INSTALLATION BANNER */}
+      <AnimatePresence>
+        {showInstallBanner && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            className="fixed bottom-24 left-4 right-4 z-50 md:hidden bg-white/95 backdrop-blur-md rounded-2xl border border-gray-150 p-4 shadow-[0_10px_35px_rgba(11,43,27,0.12)] flex items-center justify-between"
+          >
+            <div className="flex items-center space-x-3">
+              <div className="w-11 h-11 rounded-xl bg-royal-green flex items-center justify-center border border-gold/30 flex-shrink-0 overflow-hidden">
+                <img
+                  src="/src/assets/images/sr_nature_logo_1783939605671.jpg"
+                  alt="SR Nature"
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className="font-serif text-xs font-bold text-royal-green tracking-wide truncate">
+                  {language === 'id' ? 'Instal Aplikasi SR Nature' : language === 'nl' ? 'SR Nature App Installeren' : 'Install SR Nature App'}
+                </h4>
+                <p className="text-[10px] text-gray-500 font-sans mt-0.5 line-clamp-1">
+                  {language === 'id' ? 'Akses cepat & hemat kuota di handphone Anda.' : language === 'nl' ? 'Snelle toegang op uw mobiele startscherm.' : 'Fast access from your mobile homescreen.'}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2 flex-shrink-0 ml-3">
+              <button
+                onClick={() => setShowInstallBanner(false)}
+                className="text-xs font-medium text-gray-400 hover:text-gray-600 px-2 py-1.5 cursor-pointer"
+              >
+                {language === 'id' ? 'Nanti' : language === 'nl' ? 'Later' : 'Later'}
+              </button>
+              <button
+                onClick={handleInstallApp}
+                className="bg-royal-green text-gold text-xs font-semibold px-3.5 py-2 rounded-xl border border-gold/20 shadow-md hover:bg-royal-green/90 transition-all cursor-pointer"
+              >
+                {language === 'id' ? 'Instal' : language === 'nl' ? 'Instal' : 'Install'}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );
